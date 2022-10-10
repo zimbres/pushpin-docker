@@ -1,4 +1,5 @@
-FROM ubuntu:focal
+FROM --platform=$TARGETPLATFORM ubuntu:focal
+ARG TARGETPLATFORM
 
 RUN apt update
 RUN apt install -y apt-transport-https software-properties-common gnupg
@@ -8,7 +9,7 @@ RUN apt update
 
 RUN apt install -y pushpin
 
-COPY internal.conf /usr/lib/pushpin
-COPY pushpin.conf /etc/pushpin
+COPY $TARGETPLATFORM/internal.conf /usr/lib/pushpin
+COPY $TARGETPLATFORM/pushpin.conf /etc/pushpin
 
 CMD ["pushpin", "--merge-output"]
